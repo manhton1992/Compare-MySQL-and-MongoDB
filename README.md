@@ -32,3 +32,19 @@ $ npm run dev
 
 ## MySQL Server 
 $ node Server1.js
+| Method  | HTTP request | Description |
+| ---- | ---------------- | ----------------------------------|
+| list  |  GET /mysqlaircraft| Returns a list of all aircrafts. |
+| list  | GET /mysqlaircraft/mysqlaircraft:id  | Return a single aircraft with given id. If there is no aircraft that has matching id, nothing is returned. |
+| list  |  GET /mysqlposition | Returns a list of all position. |
+| list  |  GET /mysqlposition/mysqlposition:id | Returns a single position with given id. If there is no position that has matching id, nothing is returned. |
+| list  |  GET /allposition/aircraft:id | return all position belong to one aircraft |
+| insert  |  POST /mysqlaircraft| Create a new aircraft. The newly created aircraft is returned. |
+| delete  |  DELETE /mysqlaircraft/delete/mysqlaircraft:id | Delete a aircraft with the given id. The newly deleted aircraft is returned. |
+| update  |  PUT /mysqlaircraft/update/mysqlaircraft:id | Update a aircraft with the given id. The newly updated aircraft is returned. |
+| insert  |  POST /mysqlposition| Create a new position. The newly created position is returned. |
+| delete  |  DELETE /mysqlposition/delete/mysqlposition:id | Delete a position with the given id. The newly deleted position is returned. |
+| update  |  PUT /mysqlposition/update/mysqlposition:id | Update a position with the given id. The newly updated position is returned. |
+
+### Example
+ - The URL: *localhost:8080/api/mysqlaircrafts * returns result
