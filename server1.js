@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
 var mySqlConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'start01',
+    password: 'password',
     database: 'aircraft',
     insecureAuth : true,
     multipleStatements: true
@@ -29,6 +29,8 @@ mySqlConnection.connect(function(err){
 
 // Get all Aircrafts 
 app.get("/api/mysqlaircrafts",function(req,res){
+    console.log("OKOKO");
+    
     mySqlConnection.query('SELECT * from aircrafts', function(err, rows, fields) {
       if (!err)
       res.send(rows);
@@ -63,14 +65,14 @@ app.delete("/api/mysqlaircraft/:id",(req, res) => {
 app.post("/api/mysqlaircrafts", (req, res) => {
     const name = req.body.name;
     const title = req.body.title;
+ 
     var query = "INSERT INTO aircrafts (name, title) VALUES ('" + name + "', '" + title + "')";
     //var aircraft = req.params;
     mySqlConnection.query(query, (err, results, fields) => {
-        //console.log(query.mysql);
         if(!err){
             res.send("Inserted aircraft id: " + results.insertId);
         }else{
-            res.send(err.message);
+            res.send(err.message, query.mysql);
         }
     });
 });
@@ -161,7 +163,7 @@ app.put("/api/mysqlupdateposition/:id", (req, res) => {
 });
 
 
-app.listen("8080", ()=> {
+app.listen("3001", ()=> {
     console.log('Server started');
 });
 
