@@ -26,6 +26,6 @@ app.use(globalErrorHandler);
 app.use(ignoreFavicon);
 
  /** Start server */
-app.listen(config.get('server.port'), () => {
-  console.log('Aircraft Server is running ...');
+app.listen(process.env.PORT || config.get('server.port'), () => {
+  console.log('Aircraft Server is running ...on ' + config.get('server.port'));
 });

@@ -85,6 +85,23 @@ export const updatePosition = async(req: Request, res: Response) => {
 };
 
 /**
+ * @description Update positions
+ * @param req 
+ * @param res 
+ */
+ export const updateAircraftIdForPositions = async(req: Request, res: Response) => {
+    try {
+        const positions = await positionModel.updateMany(
+            {aircraftId: req.body.oldAircraftId},
+            {"$set": {aircraftId: req.body.newAircraftId}}
+        );
+        sendSuccess(res, positions);
+    } catch (error) {
+        sendBadRequest(res, error.message);
+    }
+};
+
+/**
  * @description find positions with aircraftId
  */
 export const findAllPositionWithAircraftId = async(req: Request, res: Response) => {
