@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({
 
 var mySqlConnection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
+    user: 'user',
     password: 'password',
     database: 'aircraft',
     insecureAuth : true,
@@ -162,8 +162,7 @@ app.put("/api/mysqlupdateposition/:id", (req, res) => {
     
 });
 
-
-app.listen("3001", ()=> {
+app.listen("3002", ()=> {
     console.log('Server started');
 });
 

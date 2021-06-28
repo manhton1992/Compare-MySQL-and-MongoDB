@@ -1,17 +1,17 @@
 /** Pakage imports */
 
-import {Request, Response} from 'express';
 import {IPositionModel, positionModel} from '../../models/position';
-import requestPromise = require('request-promise');
-import request = require('request');
+import {Request, Response} from 'express';
 import {
-    sendSuccess,
     sendBadRequest,
     sendCreated,
-    sendUnprocessable,
     sendDeleteSuccess,
+    sendSuccess,
+    sendUnprocessable,
     updateSuccess,
 } from '../../helpers/response-status'
+import requestPromise = require('request-promise');
+import request = require('request');
 
 /** Methodes */
 
@@ -69,7 +69,7 @@ export const deletePositon = async(req: Request, res: Response) => {
         sendBadRequest(res, error.message);
     }
 };
-
+    
 /**
  * @description Update position
  * @param req 
@@ -84,8 +84,57 @@ export const updatePosition = async(req: Request, res: Response) => {
     }
 };
 
-/** */
-export const findAllPositionWithAircraftId = async(aircraftid: string) => {
-    const positions = await positionModel.find();
-    return positions;
+/**
+ * @description find positions with aircraftId
+ */
+export const findAllPositionWithAircraftId = async(req: Request, res: Response) => {
+
+    try {
+        const positions: IPositionModel[] | null = await positionModel.find(
+            {aircraftId: req.params.aircraftId}
+        );
+        sendSuccess(res, positions);
+    } catch (error) {
+        sendBadRequest(res, error.message);
+    }
 }
+
+/**
+ * @description delete all positons
+ */
+
+export const deleteAllPositons = async(req: Request, res: Response) => {
+    try {
+        await positionModel.remove();
+        sendDeleteSuccess(res, "OK");
+
+    } catch (error) {
+        sendBadRequest(res, error.message);
+    }
+}
+
+/**
+ * @description add positions
+ * @param req
+ * @param res 
+ */
+ export const createPositions = async (req: Request, res: Response) => {
+    try {
+        let number = parseInt(req.params.number);
+        // create an array of documents to insert
+        const docs = [];
+        for(let i = 0; i < number; i++){
+            docs.push(
+                req.body
+            )
+        }
+        // this option prevents additional documents from being inserted if one fails
+        const options = { ordered: true };
+        
+        await positionModel.insertMany(docs, options);
+        sendCreated(res, "CREATED Positions");
+  
+    } catch (error) {
+        sendBadRequest(res, error.message);
+    }
+};

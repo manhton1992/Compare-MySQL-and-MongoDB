@@ -2,36 +2,24 @@
  * Landing file for NodeJs
  */
 
+/** Package imports  */
+import express, { json, urlencoded } from 'express';
 import { globalErrorHandler, ignoreFavicon } from './middlewares/errorhandler.middleware';
 
-import bodyParser from 'body-parser';
 import config from 'config';
-/** Package imports  */
-import express from 'express';
 /** Module imports */
 import { globalRouter } from './controllers/router';
-import mongoose from 'mongoose';
-import { servicesVersion } from 'typescript';
+
+// Connect to MongoDb
+const db = require('./helpers/db');
 
 /**Variables */
 var cors = require('cors');
 export const app :express.Application = express();
 app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 var datetime = require('node-datetime');
-
-
-/** Setup Database */
-mongoose.connect(config.get('database.host'), {useNewUrlParser : true});
-
-/*
-mongoose.connect('mongodb://localhost:27017/aircraft', { useNewUrlParser: true }).
-  catch(error => handleError(error));
-  */
-/** */
-
-/** Setup Mysql DB */
 
 app.use('/api', globalRouter);
 app.use(globalErrorHandler);
@@ -41,9 +29,3 @@ app.use(ignoreFavicon);
 app.listen(config.get('server.port'), () => {
   console.log('Aircraft Server is running ...');
 });
-
-console.log(process.env.NODE_EVN);
-
-function handleError(error: any): any {
-  throw new Error('Function not implemented.');
-}
