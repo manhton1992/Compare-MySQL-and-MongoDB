@@ -149,7 +149,7 @@ export const setAirCraftIDForAllPosition = async(req: Request, res: Response) =>
 };
 
 /**
- * 
+ * @description delete all aircraft
  */
 export const deleteAllAircrafts = async(req: Request, res: Response) => {
     try {

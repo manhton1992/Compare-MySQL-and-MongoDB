@@ -85,7 +85,7 @@ export const updatePosition = async(req: Request, res: Response) => {
 };
 
 /**
- * @description Update positions
+ * @description Update aircraftId for all positions
  * @param req 
  * @param res 
  */
