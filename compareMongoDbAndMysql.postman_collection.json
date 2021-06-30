@@ -1,0 +1,733 @@
+{
+	"info": {
+		"_postman_id": "636b8794-c8dc-4e89-9d7c-0699681ea4b6",
+		"name": "compareMongoDbAndMysql",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "position",
+			"item": [
+				{
+					"name": "localhost:3001/api/position/update/5ec849d535f83ed4ae562f60",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lon\": \"966916.464522\",\n\t\"lat\": \"966479.340266\",\n\t\"aircraftId\": \"60da1340f2bba1455d75d98a\",\n\t\"sendTime\": \"2020-05-22T17:18:15.437Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/position",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/position",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lon\": \"966916.464522\",\n\t\"lat\": \"966479.340266\",\n\t\"aircraftId\": \"5ec8095763a879e88a3c6ff6\",\n\t\"sendTime\": \"2020-05-22T17:18:15.437Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/position/delete/5ed4405d8b7ecb7aa5ba7898",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position",
+								"delete",
+								"5ed4405d8b7ecb7aa5ba7898"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position/addMultiple/3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lon\": \"966916.464522\",\n\t\"lat\": \"966479.340266\",\n\t\"aircraftId\": \"60da2fd16536ad8ced52e016\",\n\t\"sendTime\": \"2020-05-22T17:18:15.437Z\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/position/addMultiple/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position",
+								"addMultiple",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position/findPositionByAircraftId/60da2fd16536ad8ced52e016",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/position/findPositionByAircraftId/60da2fd16536ad8ced52e016",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position",
+								"findPositionByAircraftId",
+								"60da2fd16536ad8ced52e016"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position/deleteAll",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/position/deleteAll",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/position/updateAircraftIdForPositions",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"oldAircraftId\": \"60da2fd16536ad8ced52e016\",\n\t\"newAircraftId\": \"60da2fd16536ad8ced52e015\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/position/updateAircraftIdForPositions",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"position",
+								"updateAircraftIdForPositions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "aircraft",
+			"item": [
+				{
+					"name": "localhost:3001/api/aircraft",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "text/plain",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"VietName Airline\",\n\t\"title\": \"Boeing 787\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/aircraft",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircraft"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3001/api/aircraft",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircraft"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft/5ec8090563a879e88a3c6ff5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/aircrafts/5ec8090563a879e88a3c6ff5",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircrafts",
+								"5ec8090563a879e88a3c6ff5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft/update/5ec8090563a879e88a3c6ff5",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Viet Nam No.1\",\n\t\"title\": \"Boing No.1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/api/aircraft/update/5ec8090563a879e88a3c6ff5",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircraft",
+								"update",
+								"5ec8090563a879e88a3c6ff5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft/delete/5ec8090563a879e88a3c6ff5",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3001/api/aircraft/delete/5ed43f4d8b7ecb7aa5ba7896",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircraft",
+								"delete",
+								"5ed43f4d8b7ecb7aa5ba7896"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft/deleteAll",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/api/aircraft/deleteAll",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"aircraft",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3001/api/aircraft/addMultiple/2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"VietName Airline\",\n\t\"title\": \"Boeing 787\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/aircraft/addMultiple/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircraft",
+								"addMultiple",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mysqlaircraft",
+			"item": [
+				{
+					"name": "localhost:8080/api/mysqlaircrafts",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"LosAngeles\",\n\t\"title\":\"USA AIRLINE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/aircrafts",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlaircraft/2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/aircrafts/4",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlaircrafts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"VietName Airline\",\n\t\"title\": \"Boeing 787\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/aircrafts/addMultiple/5",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts",
+								"addMultiple",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlupdateaircraft/6",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Viet Nam No.1\",\n\t\"title\": \"Boing No.1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/aircrafts/update/5",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts",
+								"update",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlaircraft/7",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/aircrafts/delete/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts",
+								"delete",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3002/api/aircraft/deleteAll",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/aircrafts/deleteAll",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"aircrafts",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mysqlPosition",
+			"item": [
+				{
+					"name": "localhost:8080/api/mysqlpositions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lon\": \"966916.464522\",\n\t\"lat\": \"966479.340266\",\n\t\"aircraftId\": \"2\",\n\t\"sendTime\": \"2020-05-22 18:15.43\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/positions",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlpositions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/positions",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlposition/1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/positions/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080\"/api/mysqlupdateposition/1",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"lon\": 966916,\r\n        \"lat\": 966479,\r\n        \"aircraftId\": 2,\r\n        \"sendTime\": \"2020-05-22 18:15.43\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/positions/update/3",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions",
+								"update",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/mysqlposition/2",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/positions/delete/2",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions",
+								"delete",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3002/api/positions/addMultiple/10",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"lon\": \"966916.464522\",\n\t\"lat\": \"966479.340266\",\n\t\"aircraftId\": \"2\",\n\t\"sendTime\": \"2020-05-22 18:15.43\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3002/api/positions/addMultiple/10",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions",
+								"addMultiple",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:3002/api/positions/deleteAll",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3002/api/positions/deleteAll",
+							"host": [
+								"localhost"
+							],
+							"port": "3002",
+							"path": [
+								"api",
+								"positions",
+								"deleteAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
