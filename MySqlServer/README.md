@@ -16,9 +16,9 @@ $ npm run dev
 ### Endpoint: localhost:3002/api/aircrafts
 
 | Method  | HTTP request | Endpoint | Description |
-| ----      | ---------------- | ----------------------------------|
+| ----      | ---------------- | ------ | ----------------------------------|
 | list      |  GET    |       | Returns a list of all aircrafts. |
-| get       |  GET    | /:id  | Return a single aircraft with given id. If there is no aircraft that has matching id,  
+| get       |  GET    | /:id  | Return a single aircraft with given id. If there is no aircraft that has matching id, | 
 |           |         |       | nothing is returned. |
 | insert    |  POST   |       | Create a new aircraft. The newly created aircraft is returned. |
 | inserts   |   POST  | addMultiple/:number | Create a new aircrafts |

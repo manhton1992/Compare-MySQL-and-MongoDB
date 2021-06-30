@@ -29,7 +29,7 @@ $ npm run dev
 ### Endpoint: localhost:3001/api/positions
 
 | Method  | HTTP request | Endpoint | Description |
-| ----      | ---------------- | ----------------------------------|
+| ----      | ---------------- | ------ | ----------------------------------|
 | list      |  GET    |       | Returns a list of all positions. |
 | get       |  GET    | /:id  | Return a single position with given id. If there is no position that has matching id,  
 |           |         |       | nothing is returned. |
