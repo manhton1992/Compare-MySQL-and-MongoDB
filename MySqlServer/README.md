@@ -29,9 +29,9 @@ $ npm run dev
 ### Endpoint: localhost:3002/api/positions
 
 | Method  | HTTP request | Endpoint | Description |
-| ----      | ---------------- | ----------------------------------|
+| ----      | ---------------- | ----- | ----------------------------------|
 | list      |  GET    |       | Returns a list of all positions. |
-| get       |  GET    | /:id  | Return a single position with given id. If there is no position that has matching id,  
+| get       |  GET    | /:id  | Return a single position with given id. If there is no position that has matching id, | 
 |           |         |       | nothing is returned. |
 | insert    |  POST   |       | Create a new position. The newly created position is returned. |
 | inserts   |   POST  | addMultiple/:number | Create a new positions with number of give position |
