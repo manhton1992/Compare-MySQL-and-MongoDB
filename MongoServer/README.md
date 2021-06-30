@@ -7,44 +7,40 @@ What things you need to install the software and how to install them?
 - [npm](https://www.npmjs.com/package/npm-api)
 - [express](https://expressjs.com/de/api.html)
 - [MongoDb](https://mongoosejs.com/)
-- [MySQL]
-
-$ npm install
-## MongoDb Server
-$ npm run dev
-| Method  | HTTP request | Description |
-| ---- | ---------------- | ----------------------------------|
-| list  |  GET /aircraft| Returns a list of all aircrafts. |
-| list  | GET /aircraft/aircraft:id  | Return a single aircraft with given id. If there is no aircraft that has matching id, nothing is returned. |
-| list  |  GET /position | Returns a list of all position. |
-| list  |  GET /position/position:id | Returns a single position with given id. If there is no position that has matching id, nothing is returned. |
-| list  |  GET /allposition/aircraft:id | return all position belong to one aircraft |
-| insert  |  POST /aircraft| Create a new aircraft. The newly created aircraft is returned. |
-| delete  |  DELETE /aircraft/delete/aircraft:id | Delete a aircraft with the given id. The newly deleted aircraft is returned. |
-| update  |  PUT /aircraft/update/aircraft:id | Update a aircraft with the given id. The newly updated aircraft is returned. |
-| insert  |  POST /position| Create a new position. The newly created position is returned. |
-| delete  |  DELETE /position/delete/position:id | Delete a position with the given id. The newly deleted position is returned. |
-| update  |  PUT /position/update/position:id | Update a position with the given id. The newly updated position is returned. |
-
-### Example
- - The URL: *http://localhost:3001/api/aircraft * returns result
+- [MySQL] (https://dev.mysql.com/)
 
 
 ## MySQL Server 
-$ node Server1.js
-| Method  | HTTP request | Description |
-| ---- | ---------------- | ----------------------------------|
-| list  |  GET /mysqlaircraft| Returns a list of all aircrafts. |
-| list  | GET /mysqlaircraft/mysqlaircraft:id  | Return a single aircraft with given id. If there is no aircraft that has matching id, nothing is returned. |
-| list  |  GET /mysqlposition | Returns a list of all position. |
-| list  |  GET /mysqlposition/mysqlposition:id | Returns a single position with given id. If there is no position that has matching id, nothing is returned. |
-| list  |  GET /allposition/aircraft:id | return all position belong to one aircraft |
-| insert  |  POST /mysqlaircraft| Create a new aircraft. The newly created aircraft is returned. |
-| delete  |  DELETE /mysqlaircraft/delete/mysqlaircraft:id | Delete a aircraft with the given id. The newly deleted aircraft is returned. |
-| update  |  PUT /mysqlaircraft/update/mysqlaircraft:id | Update a aircraft with the given id. The newly updated aircraft is returned. |
-| insert  |  POST /mysqlposition| Create a new position. The newly created position is returned. |
-| delete  |  DELETE /mysqlposition/delete/mysqlposition:id | Delete a position with the given id. The newly deleted position is returned. |
-| update  |  PUT /mysqlposition/update/mysqlposition:id | Update a position with the given id. The newly updated position is returned. |
+$ npm run dev
+
+### Endpoint: localhost:3001/api/aircrafts
+
+| Method  | HTTP request | Endpoint | Description |
+| ----      | ---------------- | ----------------------------------|
+| list      |  GET    |       | Returns a list of all aircrafts. |
+| get       |  GET    | /:id  | Return a single aircraft with given id. If there is no aircraft that has matching id,  
+|           |         |       | nothing is returned. |
+| insert    |  POST   |       | Create a new aircraft. The newly created aircraft is returned. |
+| inserts   |   POST  | addMultiple/:number | Create a new aircrafts |
+| update    |  PUT    | /update/:id | Update a aircraft with the given id. The newly updated aircraft |
+| delete    | DELETE  | /delete/:id | Delete a aircraft with the given id |
+| deletes   | DELETE  | /deleteAll  | Delete all aircrafts |
+
+### Endpoint: localhost:3001/api/positions
+
+| Method  | HTTP request | Endpoint | Description |
+| ----      | ---------------- | ----------------------------------|
+| list      |  GET    |       | Returns a list of all positions. |
+| get       |  GET    | /:id  | Return a single position with given id. If there is no position that has matching id,  
+|           |         |       | nothing is returned. |
+| insert    |  POST   |       | Create a new position. The newly created position is returned. |
+| inserts   |   POST  | addMultiple/:number | Create a new positions with number of give position |
+| update    |  PUT    | /update/:id | Update a positions with the given id. The newly updated aircraft |
+| update    |  PUT    | /updateAircraftIdForPositions | update aircraftId for all positions |
+| delete    |  DELETE | /delete/:id | Delete a position with the given id |
+| deletes   |  DELETE | /deleteAll  | Delete all position |
 
 ### Example
- - The URL: *localhost:8080/api/mysqlaircrafts * returns result
+
+Download and import postman file for easier testing.
+
