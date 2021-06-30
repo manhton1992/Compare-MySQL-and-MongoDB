@@ -11,11 +11,17 @@ import config from 'config';
 import { globalRouter } from './controllers/router';
 
 // Connect to MongoDb
-const db = require('./helpers/db');
+//const db = require('./helpers/db');
+
+// Connect to Mysql
+const mysql_db = require('./helpers/mysql_db');
+
+
 
 /**Variables */
 var cors = require('cors');
 export const app :express.Application = express();
+
 app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
@@ -27,5 +33,5 @@ app.use(ignoreFavicon);
 
  /** Start server */
 app.listen(process.env.PORT || config.get('server.port'), () => {
-  console.log('Aircraft Server is running ...on ' + config.get('server.port'));
+  console.log('Aircraft Mysql_Server is running ...on ' + config.get('server.port'));
 });

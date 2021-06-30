@@ -21,7 +21,7 @@ export const positionRouter: express.Router = express.Router({mergeParams: true}
 /** Get all Aircrafts */
 positionRouter.get('/', logTime, wrapAsync(getPositions));
 /** Get Single Aircraft */
-positionRouter.get('/:positionid', logTime, wrapAsync(getSinglePosition));
+positionRouter.get('/:positionId', logTime, wrapAsync(getSinglePosition));
 /** Get Position by aircraftId */
 positionRouter.get('/findPositionByAircraftId/:aircraftId', logTime, wrapAsync(findAllPositionWithAircraftId));
 /** CREATE */
@@ -29,12 +29,12 @@ positionRouter.post('/', logTime, wrapAsync(createPosition));
 /** CREATE */
 positionRouter.post('/addMultiple/:number', logTime, wrapAsync(createPositions));
 /** Update Aircraft */
-positionRouter.put('/update/:positionid', logTime, wrapAsync(updatePosition));
+positionRouter.put('/update/:positionId', logTime, wrapAsync(updatePosition));
 
 /** Update Aircraft */
 positionRouter.put('/updateAircraftIdForPositions', logTime, wrapAsync(updateAircraftIdForPositions));
 
 /** Delete Aircraft */
-positionRouter.delete('/delete/:positionid', logTime, wrapAsync(deletePositon));
+positionRouter.delete('/delete/:positionId', logTime, wrapAsync(deletePositon));
 /** delete all Positions */
 positionRouter.delete('/deleteAll', logTime, wrapAsync(deleteAllPositons));

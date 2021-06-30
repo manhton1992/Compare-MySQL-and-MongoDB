@@ -1,8 +1,11 @@
 {
     "database": {
-        "host": "mongodb://localhost:27017/test"
+        "host": "localhost",
+        "user": "root",
+        "password": "password",
+        "db_name": "aircraft_test"
     },
     "server":{
-        "port": 3001
+        "port": 3002
     }
 }

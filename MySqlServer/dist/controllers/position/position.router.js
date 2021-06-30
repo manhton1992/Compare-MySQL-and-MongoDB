@@ -30,7 +30,7 @@ exports.positionRouter = express.Router({ mergeParams: true });
 /** Get all Aircrafts */
 exports.positionRouter.get('/', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.getPositions));
 /** Get Single Aircraft */
-exports.positionRouter.get('/:positionid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.getSinglePosition));
+exports.positionRouter.get('/:positionId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.getSinglePosition));
 /** Get Position by aircraftId */
 exports.positionRouter.get('/findPositionByAircraftId/:aircraftId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.findAllPositionWithAircraftId));
 /** CREATE */
@@ -38,11 +38,11 @@ exports.positionRouter.post('/', timelogger_middleware_1.logTime, errorhandler_m
 /** CREATE */
 exports.positionRouter.post('/addMultiple/:number', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.createPositions));
 /** Update Aircraft */
-exports.positionRouter.put('/update/:positionid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.updatePosition));
+exports.positionRouter.put('/update/:positionId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.updatePosition));
 /** Update Aircraft */
 exports.positionRouter.put('/updateAircraftIdForPositions', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.updateAircraftIdForPositions));
 /** Delete Aircraft */
-exports.positionRouter.delete('/delete/:positionid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.deletePositon));
+exports.positionRouter.delete('/delete/:positionId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.deletePositon));
 /** delete all Positions */
 exports.positionRouter.delete('/deleteAll', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(position_controller_1.deleteAllPositons));
 //# sourceMappingURL=position.router.js.map

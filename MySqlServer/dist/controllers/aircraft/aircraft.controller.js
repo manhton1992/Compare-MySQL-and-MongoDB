@@ -1,11 +1,9 @@
-"use strict";
 /** Pakage imports */
+'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAllAircrafts = exports.setAirCraftIDForAllPosition = exports.getAirCraftsWithAllPosition = exports.updateAircraft = exports.deleteAircraft = exports.getSingleAircraft = exports.createAirCrafts = exports.createAirCraft = exports.getAirCrafts = void 0;
-const aircraft_1 = require("../../models/aircraft");
-const position_1 = require("../../models/position");
+exports.deleteAllAircrafts = exports.getAirCraftsWithAllPosition = exports.updateAircraft = exports.deleteAircraft = exports.getSingleAircraft = exports.createAirCrafts = exports.createAirCraft = exports.getAirCrafts = void 0;
 const response_status_1 = require("../../helpers/response-status");
-//import { findAllPositionWithAircraftId } from '../position/position.controller';
+const mySqlConnection = require('../../helpers/mysql_db');
 /** Methodes */
 /** variable */
 /**
@@ -14,13 +12,14 @@ const response_status_1 = require("../../helpers/response-status");
  * @param res
  */
 exports.getAirCrafts = async (req, res) => {
-    try {
-        const aircrafts = await aircraft_1.aircraftModel.find(req.query);
-        response_status_1.sendSuccess(res, aircrafts);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * from aircrafts', function (err, rows, fields) {
+        if (!err) {
+            response_status_1.sendSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description Create a New aircraft
@@ -28,13 +27,17 @@ exports.getAirCrafts = async (req, res) => {
  * @param res
  */
 exports.createAirCraft = async (req, res) => {
-    try {
-        const newAirCraft = await aircraft_1.aircraftModel.create(req.body);
-        response_status_1.sendCreated(res, newAirCraft);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    const name = req.body.name;
+    const title = req.body.title;
+    var query = "INSERT INTO aircrafts (name, title) VALUES ('" + name + "', '" + title + "')";
+    mySqlConnection.query(query, (err, results, fields) => {
+        if (!err) {
+            response_status_1.sendCreated(res, results.insertId);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description add aircraft by number of aircrafts
@@ -47,12 +50,20 @@ exports.createAirCrafts = async (req, res) => {
         // create an array of documents to insert
         const docs = [];
         for (let i = 0; i < number; i++) {
-            docs.push(req.body);
+            docs.push([
+                req.body.name,
+                req.body.title
+            ]);
         }
-        // this option prevents additional documents from being inserted if one fails
-        const options = { ordered: true };
-        await aircraft_1.aircraftModel.insertMany(docs, options);
-        response_status_1.sendCreated(res, "CREATED MANY AIRCRAFT");
+        var query = "INSERT INTO aircrafts (name, title) VALUES ? ";
+        mySqlConnection.query(query, [docs], (err, results, fields) => {
+            if (!err) {
+                response_status_1.sendCreated(res, "OK");
+            }
+            else {
+                response_status_1.sendBadRequest(res, err.message);
+            }
+        });
     }
     catch (error) {
         response_status_1.sendBadRequest(res, error.message);
@@ -64,13 +75,14 @@ exports.createAirCrafts = async (req, res) => {
  * @param res
  */
 exports.getSingleAircraft = async (req, res) => {
-    try {
-        const singleAircraft = await aircraft_1.aircraftModel.findById(req.params.aircraftid);
-        response_status_1.sendSuccess(res, singleAircraft);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * FROM aircrafts WHERE aircrafts.id = ?', [req.params.aircraftId], (err, rows, fields) => {
+        if (!err) {
+            response_status_1.sendSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description delete aircraft
@@ -78,13 +90,14 @@ exports.getSingleAircraft = async (req, res) => {
  * @param res
  */
 exports.deleteAircraft = async (req, res) => {
-    try {
-        const deleteAircraft = await aircraft_1.aircraftModel.findByIdAndDelete(req.params.aircraftid);
-        response_status_1.sendDeleteSuccess(res, deleteAircraft);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query("DELETE FROM aircrafts WHERE id = ?", [req.params.aircraftId], (err, results, fields) => {
+        if (!err) {
+            response_status_1.sendDeleteSuccess(res, "OK");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description Update Aircraft
@@ -92,50 +105,47 @@ exports.deleteAircraft = async (req, res) => {
  * @param res
  */
 exports.updateAircraft = async (req, res) => {
-    try {
-        const updateAircraft = await aircraft_1.aircraftModel.findByIdAndUpdate(req.params.aircraftid, req.body, { new: true, });
-        response_status_1.updateSuccess(res, updateAircraft);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var id = req.params.aircraftId;
+    var name = req.body.name;
+    var title = req.body.title;
+    var query = "UPDATE aircrafts SET name = ? , title = ? WHERE id = ?";
+    mySqlConnection.query(query, [name, title, id], (err, results, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, "OK");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
- *
+ * @description get positons with AircraftId
  */
 exports.getAirCraftsWithAllPosition = async (req, res) => {
-    try {
-        const singleAircraft = await aircraft_1.aircraftModel.findById(req.params.aircraftid);
-        const positons = await position_1.positionModel.find({ aircraftId: { $eq: singleAircraft === null || singleAircraft === void 0 ? void 0 : singleAircraft._id } });
-        response_status_1.sendSuccess(res, positons);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
-};
-/**
- *
- */
-exports.setAirCraftIDForAllPosition = async (req, res) => {
-    try {
-        const singleAircraft = await aircraft_1.aircraftModel.findById(req.params.aircraftid);
-        const positons = await position_1.positionModel.find({ aircraftId: { $eq: singleAircraft === null || singleAircraft === void 0 ? void 0 : singleAircraft._id } }, { $set: { aircraftId: "5ec8095763a879e88a3c6ff6" } });
-        response_status_1.sendSuccess(res, positons);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var query = "SELECT * FROM position WHERE positon.aircraftId = ?";
+    mySqlConnection.query(query, [req.params.aircraftId], (err, rows, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description delete all aircraft
+ * @req
+ * @res
  */
 exports.deleteAllAircrafts = async (req, res) => {
-    try {
-        await aircraft_1.aircraftModel.deleteMany();
-        response_status_1.sendDeleteSuccess(res, "OK");
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var query = "DELETE FROM aircrafts WHERE true";
+    mySqlConnection.query(query, (err, results, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, "OK");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 //# sourceMappingURL=aircraft.controller.js.map

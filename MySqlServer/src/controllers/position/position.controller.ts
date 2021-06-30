@@ -12,6 +12,7 @@ import {
 } from '../../helpers/response-status'
 import requestPromise = require('request-promise');
 import request = require('request');
+const mySqlConnection = require('../../helpers/mysql_db');
 
 /** Methodes */
 
@@ -21,12 +22,13 @@ import request = require('request');
  * @param res 
  */
 export const getPositions = async(req: Request, res: Response) => {
-    try {
-        const positons: IPositionModel[] = await positionModel.find(req.query);
-        sendSuccess(res, positons);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * from positions', function(err: { message: any; }, rows: any, fields: any) {
+        if (!err){
+            sendSuccess(res, rows);
+        }else {
+            sendBadRequest(res, err.message);
+        }
+      });
 };
 /**
  * @description Create a new position
@@ -34,12 +36,19 @@ export const getPositions = async(req: Request, res: Response) => {
  * @param res 
  */
 export const createPosition = async (req: Request, res: Response) => {
-    try {
-        const newPosition: IPositionModel = await positionModel.create(req.body);
-        sendCreated(res, newPosition);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "INSERT INTO positions (lon, lat, aircraftId, sendTime) VALUES ('" + lon + "', '" + lat + "', '" 
+                                        + aircraftId + "', '" + sendTime + "')";
+    mySqlConnection.query(query, (err: { message: any; }, results: { insertId: string; }, fields: any) => {
+        if(!err){
+            sendCreated(res, "Inserted position id: " + results.insertId);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -48,12 +57,15 @@ export const createPosition = async (req: Request, res: Response) => {
  * @param res 
  */
 export const getSinglePosition = async(req: Request, res : Response) => {
-    try {
-        const singlePosition: IPositionModel | null = await positionModel.findById(req.params.positionid);
-        sendSuccess(res, singlePosition);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    console.log(req.params.positionId);
+    mySqlConnection.query('SELECT * FROM positions WHERE positions.id = ?', [req.params.positionId], (err: { message: any; }, rows: any, fields: any) => {
+        if(! err){
+            sendSuccess(res, rows);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
+    
 };
 
 /**
@@ -62,12 +74,13 @@ export const getSinglePosition = async(req: Request, res : Response) => {
  * @param res 
  */
 export const deletePositon = async(req: Request, res: Response) => {
-    try {
-        const deleteposition: IPositionModel | null = await positionModel.findByIdAndDelete(req.params.positionid);
-        sendDeleteSuccess(res, deleteposition);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query("DELETE FROM positions WHERE id = ?", [req.params.positionId], (err: { message: any; }, results: any, fields: any) => {
+        if(! err){
+            sendDeleteSuccess(res, "OK");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
     
 /**
@@ -76,12 +89,20 @@ export const deletePositon = async(req: Request, res: Response) => {
  * @param res 
  */
 export const updatePosition = async(req: Request, res: Response) => {
-    try {
-        const updatePosition: IPositionModel | null = await positionModel.findByIdAndUpdate(req.params.positionid, req.body, {new : true,});
-        updateSuccess(res, updatePosition);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    
+    var id = req.params.positionId;
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "UPDATE positions SET lon = ? , lat = ? , aircraftId = ?, sendTime = ? WHERE id = ?";
+    mySqlConnection.query(query, [lon, lat, aircraftId, sendTime, id], (err: { message: any; }, results: { id: string; }, fields: any) => {
+        if(!err){
+            updateSuccess(res, "updated: " + results.id);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -90,15 +111,19 @@ export const updatePosition = async(req: Request, res: Response) => {
  * @param res 
  */
  export const updateAircraftIdForPositions = async(req: Request, res: Response) => {
-    try {
-        const positions = await positionModel.updateMany(
-            {aircraftId: req.body.oldAircraftId},
-            {"$set": {aircraftId: req.body.newAircraftId}}
-        );
-        sendSuccess(res, positions);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+   
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "UPDATE positions SET lon = ? , lat = ? , aircraftId = ?, sendTime = ? WHERE aircraftId = ?";
+    mySqlConnection.query(query, [lon, lat, aircraftId, sendTime, aircraftId], (err: { message: any; }, results: { id: string; }, fields: any) => {
+        if(!err){
+            updateSuccess(res, "updated: ");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -106,14 +131,14 @@ export const updatePosition = async(req: Request, res: Response) => {
  */
 export const findAllPositionWithAircraftId = async(req: Request, res: Response) => {
 
-    try {
-        const positions: IPositionModel[] | null = await positionModel.find(
-            {aircraftId: req.params.aircraftId}
-        );
-        sendSuccess(res, positions);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    var query = "SELECT * FROM position WHERE positon.aircraftId = ?";
+    mySqlConnection.query(query, [req.params.aircraftId], (err: any, rows: any, fields: any) => {
+        if(!err){
+            updateSuccess(res, rows);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 }
 
 /**
@@ -121,13 +146,14 @@ export const findAllPositionWithAircraftId = async(req: Request, res: Response) 
  */
 
 export const deleteAllPositons = async(req: Request, res: Response) => {
-    try {
-        await positionModel.remove();
-        sendDeleteSuccess(res, "OK");
-
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    var query = "DELETE FROM positions WHERE true";
+    mySqlConnection.query(query, (err: any, results: any, fields: any) => {
+        if(!err){
+            updateSuccess(res, "OK");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 }
 
 /**
@@ -142,15 +168,23 @@ export const deleteAllPositons = async(req: Request, res: Response) => {
         const docs = [];
         for(let i = 0; i < number; i++){
             docs.push(
-                req.body
+                [
+                    req.body.lon,
+                    req.body.lat,
+                    req.body.aircraftId,
+                    req.body.sendTime
+                ]
             )
         }
-        // this option prevents additional documents from being inserted if one fails
-        const options = { ordered: true };
-        
-        await positionModel.insertMany(docs, options);
-        sendCreated(res, "CREATED Positions");
-  
+        console.log(docs);
+        var query = "INSERT INTO positions (lon, lat, aircraftId, sendTime) VALUES ? ";
+        mySqlConnection.query(query, [docs], (err: { message: any; }, results: any, fields: any) => {
+            if(!err){
+                sendCreated(res, "OK");
+            }else{
+                sendBadRequest(res, err.message);
+            }
+        });
     } catch (error) {
         sendBadRequest(res, error.message);
     }

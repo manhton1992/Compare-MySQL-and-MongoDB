@@ -18,10 +18,10 @@ const createTableAircrafts = "CREATE TABLE aircrafts( " +
 
 const createTablePositions = "CREATE TABLE positions ( " +
   "id INT NOT NULL AUTO_INCREMENT, " +
-  "lon DECIMAL(11,8) NOT NULL, " +
-  "lat DECIMAL(11,8) NOT NULL, " +
+  "lon DECIMAL(14,8) NOT NULL, " +
+  "lat DECIMAL(14,8) NOT NULL, " +
   "aircraftId INT NOT NULL, " +
-  "sendTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
+  "sendTime DATETIME DEFAULT CURRENT_TIMESTAMP, " +
   "PRIMARY KEY (id), " +
   "CONSTRAINT fk_aircraft FOREIGN KEY (aircraftId) REFERENCES aircrafts(id) ON UPDATE CASCADE ON DELETE RESTRICT " +
   ") ENGINE=INNODB";
@@ -70,7 +70,8 @@ mySqlConnection.connect(function(err: any){
       console.log("DROP table aircrafts ");
     }
   });
-  
+  */
+  /*
   mySqlConnection.query("DROP TABLE positions", (err: { message: any; }, results: any, fields: any) => {
     if(!err){
       console.log("DROP table positions ");
@@ -78,9 +79,9 @@ mySqlConnection.connect(function(err: any){
       console.log("DROP table positions ");
     }
   });
-  
+  */
 
- 
+  /*
   mySqlConnection.query(createTableAircrafts, (err: { message: any; }, results: any, fields: any) => {
     if(!err){
       console.log("Created table aircrafts ");

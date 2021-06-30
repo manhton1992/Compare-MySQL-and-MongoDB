@@ -33,7 +33,9 @@ const config_1 = __importDefault(require("config"));
 /** Module imports */
 const router_1 = require("./controllers/router");
 // Connect to MongoDb
-const db = require('./helpers/db');
+//const db = require('./helpers/db');
+// Connect to Mysql
+const mysql_db = require('./helpers/mysql_db');
 /**Variables */
 var cors = require('cors');
 exports.app = express_1.default();
@@ -46,6 +48,6 @@ exports.app.use(errorhandler_middleware_1.globalErrorHandler);
 exports.app.use(errorhandler_middleware_1.ignoreFavicon);
 /** Start server */
 exports.app.listen(process.env.PORT || config_1.default.get('server.port'), () => {
-    console.log('Aircraft Server is running ...on ' + config_1.default.get('server.port'));
+    console.log('Aircraft Mysql_Server is running ...on ' + config_1.default.get('server.port'));
 });
 //# sourceMappingURL=server.js.map

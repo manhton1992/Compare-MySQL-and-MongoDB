@@ -28,6 +28,6 @@ const aircraft_router_1 = require("./aircraft/aircraft.router");
 const position_router_1 = require("./position/position.router");
 exports.globalRouter = express.Router({ mergeParams: true });
 /** /api/aircraft rounter */
-exports.globalRouter.use('/aircraft', aircraft_router_1.aircraftRouter);
-exports.globalRouter.use('/position', position_router_1.positionRouter);
+exports.globalRouter.use('/aircrafts', aircraft_router_1.aircraftRouter);
+exports.globalRouter.use('/positions', position_router_1.positionRouter);
 //# sourceMappingURL=router.js.map

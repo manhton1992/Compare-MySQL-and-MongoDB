@@ -1,4 +1,5 @@
 /** Pakage imports */
+'use strict'
 
 import {IAirCraftModel, aircraftModel} from '../../models/aircraft';
 import { IPositionModel, positionModel } from '../../models/position';
@@ -12,13 +13,7 @@ import {
     updateSuccess,
 } from '../../helpers/response-status'
 
-import config from 'config';
-import mongoose from 'mongoose';
-
-import requestPromise = require('request-promise');
-import request = require('request');
-//import { findAllPositionWithAircraftId } from '../position/position.controller';
-
+const mySqlConnection = require('../../helpers/mysql_db');
 
 /** Methodes */
 
@@ -30,12 +25,14 @@ import request = require('request');
  * @param res 
  */
 export const getAirCrafts = async(req: Request, res: Response) => {
-    try {
-        const aircrafts: IAirCraftModel[] = await aircraftModel.find(req.query);
-        sendSuccess(res, aircrafts);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * from aircrafts', function(err: { message: any; }, rows: any, fields: any) {
+        if (!err){
+            sendSuccess(res, rows);
+        }
+        else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -44,13 +41,18 @@ export const getAirCrafts = async(req: Request, res: Response) => {
  * @param res 
  */
 export const createAirCraft = async (req: Request, res: Response) => {
-    try {
-        const newAirCraft: IAirCraftModel = await aircraftModel.create(req.body);
-        sendCreated(res, newAirCraft);
-  
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    
+    const name = req.body.name;
+    const title = req.body.title;
+ 
+    var query = "INSERT INTO aircrafts (name, title) VALUES ('" + name + "', '" + title + "')";
+    mySqlConnection.query(query, (err: { message: any; }, results: { insertId: string }, fields: any) => {
+        if(!err){
+            sendCreated(res, results.insertId);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -65,15 +67,21 @@ export const createAirCraft = async (req: Request, res: Response) => {
         const docs = [];
         for(let i = 0; i < number; i++){
             docs.push(
-                req.body
+                [
+                    req.body.name,
+                    req.body.title
+                ]
             )
         }
-        // this option prevents additional documents from being inserted if one fails
-        const options = { ordered: true };
         
-        await aircraftModel.insertMany(docs, options);
-        sendCreated(res, "CREATED MANY AIRCRAFT");
-  
+        var query = "INSERT INTO aircrafts (name, title) VALUES ? ";
+        mySqlConnection.query(query, [docs], (err: { message: any; }, results: any, fields: any) => {
+            if(!err){
+                sendCreated(res, "OK");
+            }else{
+                sendBadRequest(res, err.message);
+            }
+        });
     } catch (error) {
         sendBadRequest(res, error.message);
     }
@@ -85,12 +93,13 @@ export const createAirCraft = async (req: Request, res: Response) => {
  * @param res 
  */
 export const getSingleAircraft = async(req: Request, res : Response) => {
-    try {
-        const singleAircraft: IAirCraftModel | null = await aircraftModel.findById(req.params.aircraftid);
-        sendSuccess(res, singleAircraft);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * FROM aircrafts WHERE aircrafts.id = ?', [req.params.aircraftId], (err: { message: any; }, rows: any, fields: any) => {
+        if(!err){
+            sendSuccess(res, rows);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -99,12 +108,14 @@ export const getSingleAircraft = async(req: Request, res : Response) => {
  * @param res 
  */
 export const deleteAircraft = async(req: Request, res: Response) => {
-    try {
-        const deleteAircraft: IAirCraftModel | null = await aircraftModel.findByIdAndDelete(req.params.aircraftid);
-        sendDeleteSuccess(res, deleteAircraft);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    
+    mySqlConnection.query("DELETE FROM aircrafts WHERE id = ?", [req.params.aircraftId], (err: { message: any; }, results: any, fields: any) => {
+        if(! err){
+            sendDeleteSuccess(res, "OK");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
@@ -113,49 +124,47 @@ export const deleteAircraft = async(req: Request, res: Response) => {
  * @param res 
  */
 export const updateAircraft = async(req: Request, res: Response) => {
-    try {
-        const updateAircraft: IAirCraftModel | null = await aircraftModel.findByIdAndUpdate(req.params.aircraftid, req.body, {new : true,});
-        updateSuccess(res, updateAircraft);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    var id = req.params.aircraftId;
+    var name = req.body.name;
+    var title = req.body.title;
+    
+    var query = "UPDATE aircrafts SET name = ? , title = ? WHERE id = ?";
+    mySqlConnection.query(query, [name, title, id], (err: any, results: {insertId: string}, fields: any) => {
+        if(!err){
+            updateSuccess(res, "OK");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
- * 
+ * @description get positons with AircraftId
  */
 export const getAirCraftsWithAllPosition = async(req: Request, res: Response) =>{
-    try {
-        const singleAircraft: IAirCraftModel | null = await aircraftModel.findById(req.params.aircraftid);
-        const positons: IPositionModel[] = await positionModel.find({aircraftId:{ $eq :singleAircraft?._id}});
-        sendSuccess(res, positons);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
-};
-
-/**
- * 
- */
-export const setAirCraftIDForAllPosition = async(req: Request, res: Response) =>{
-    try {
-        const singleAircraft: IAirCraftModel | null = await aircraftModel.findById(req.params.aircraftid);
-        const positons: IPositionModel[] = await positionModel.find({aircraftId:{ $eq :singleAircraft?._id}},
-            {$set: {aircraftId: "5ec8095763a879e88a3c6ff6"}});
-        sendSuccess(res, positons);
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    var query = "SELECT * FROM position WHERE positon.aircraftId = ?";
+    mySqlConnection.query(query, [req.params.aircraftId], (err: any, rows: any, fields: any) => {
+        if(!err){
+            updateSuccess(res, rows);
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 };
 
 /**
  * @description delete all aircraft
+ * @req
+ * @res
  */
 export const deleteAllAircrafts = async(req: Request, res: Response) => {
-    try {
-        await aircraftModel.deleteMany();
-        sendDeleteSuccess(res, "OK");
-    } catch (error) {
-        sendBadRequest(res, error.message);
-    }
+    
+    var query = "DELETE FROM aircrafts WHERE true";
+    mySqlConnection.query(query, (err: any, results: any, fields: any) => {
+        if(!err){
+            updateSuccess(res, "OK");
+        }else{
+            sendBadRequest(res, err.message);
+        }
+    });
 }

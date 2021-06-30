@@ -2,8 +2,8 @@
 /** Pakage imports */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createPositions = exports.deleteAllPositons = exports.findAllPositionWithAircraftId = exports.updateAircraftIdForPositions = exports.updatePosition = exports.deletePositon = exports.getSinglePosition = exports.createPosition = exports.getPositions = void 0;
-const position_1 = require("../../models/position");
 const response_status_1 = require("../../helpers/response-status");
+const mySqlConnection = require('../../helpers/mysql_db');
 /** Methodes */
 /**
  * Get all position
@@ -11,13 +11,14 @@ const response_status_1 = require("../../helpers/response-status");
  * @param res
  */
 exports.getPositions = async (req, res) => {
-    try {
-        const positons = await position_1.positionModel.find(req.query);
-        response_status_1.sendSuccess(res, positons);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query('SELECT * from positions', function (err, rows, fields) {
+        if (!err) {
+            response_status_1.sendSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description Create a new position
@@ -25,13 +26,20 @@ exports.getPositions = async (req, res) => {
  * @param res
  */
 exports.createPosition = async (req, res) => {
-    try {
-        const newPosition = await position_1.positionModel.create(req.body);
-        response_status_1.sendCreated(res, newPosition);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "INSERT INTO positions (lon, lat, aircraftId, sendTime) VALUES ('" + lon + "', '" + lat + "', '"
+        + aircraftId + "', '" + sendTime + "')";
+    mySqlConnection.query(query, (err, results, fields) => {
+        if (!err) {
+            response_status_1.sendCreated(res, "Inserted position id: " + results.insertId);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description get single Positon
@@ -39,13 +47,15 @@ exports.createPosition = async (req, res) => {
  * @param res
  */
 exports.getSinglePosition = async (req, res) => {
-    try {
-        const singlePosition = await position_1.positionModel.findById(req.params.positionid);
-        response_status_1.sendSuccess(res, singlePosition);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    console.log(req.params.positionId);
+    mySqlConnection.query('SELECT * FROM positions WHERE positions.id = ?', [req.params.positionId], (err, rows, fields) => {
+        if (!err) {
+            response_status_1.sendSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description delete position
@@ -53,13 +63,14 @@ exports.getSinglePosition = async (req, res) => {
  * @param res
  */
 exports.deletePositon = async (req, res) => {
-    try {
-        const deleteposition = await position_1.positionModel.findByIdAndDelete(req.params.positionid);
-        response_status_1.sendDeleteSuccess(res, deleteposition);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    mySqlConnection.query("DELETE FROM positions WHERE id = ?", [req.params.positionId], (err, results, fields) => {
+        if (!err) {
+            response_status_1.sendDeleteSuccess(res, "OK");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description Update position
@@ -67,13 +78,20 @@ exports.deletePositon = async (req, res) => {
  * @param res
  */
 exports.updatePosition = async (req, res) => {
-    try {
-        const updatePosition = await position_1.positionModel.findByIdAndUpdate(req.params.positionid, req.body, { new: true, });
-        response_status_1.updateSuccess(res, updatePosition);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var id = req.params.positionId;
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "UPDATE positions SET lon = ? , lat = ? , aircraftId = ?, sendTime = ? WHERE id = ?";
+    mySqlConnection.query(query, [lon, lat, aircraftId, sendTime, id], (err, results, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, "updated: " + results.id);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description Update aircraftId for all positions
@@ -81,37 +99,47 @@ exports.updatePosition = async (req, res) => {
  * @param res
  */
 exports.updateAircraftIdForPositions = async (req, res) => {
-    try {
-        const positions = await position_1.positionModel.updateMany({ aircraftId: req.body.oldAircraftId }, { "$set": { aircraftId: req.body.newAircraftId } });
-        response_status_1.sendSuccess(res, positions);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+    var aircraftId = req.body.aircraftId;
+    var sendTime = req.body.sendTime;
+    var query = "UPDATE positions SET lon = ? , lat = ? , aircraftId = ?, sendTime = ? WHERE aircraftId = ?";
+    mySqlConnection.query(query, [lon, lat, aircraftId, sendTime, aircraftId], (err, results, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, "updated: ");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description find positions with aircraftId
  */
 exports.findAllPositionWithAircraftId = async (req, res) => {
-    try {
-        const positions = await position_1.positionModel.find({ aircraftId: req.params.aircraftId });
-        response_status_1.sendSuccess(res, positions);
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var query = "SELECT * FROM position WHERE positon.aircraftId = ?";
+    mySqlConnection.query(query, [req.params.aircraftId], (err, rows, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, rows);
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description delete all positons
  */
 exports.deleteAllPositons = async (req, res) => {
-    try {
-        await position_1.positionModel.remove();
-        response_status_1.sendDeleteSuccess(res, "OK");
-    }
-    catch (error) {
-        response_status_1.sendBadRequest(res, error.message);
-    }
+    var query = "DELETE FROM positions WHERE true";
+    mySqlConnection.query(query, (err, results, fields) => {
+        if (!err) {
+            response_status_1.updateSuccess(res, "OK");
+        }
+        else {
+            response_status_1.sendBadRequest(res, err.message);
+        }
+    });
 };
 /**
  * @description add positions
@@ -124,12 +152,23 @@ exports.createPositions = async (req, res) => {
         // create an array of documents to insert
         const docs = [];
         for (let i = 0; i < number; i++) {
-            docs.push(req.body);
+            docs.push([
+                req.body.lon,
+                req.body.lat,
+                req.body.aircraftId,
+                req.body.sendTime
+            ]);
         }
-        // this option prevents additional documents from being inserted if one fails
-        const options = { ordered: true };
-        await position_1.positionModel.insertMany(docs, options);
-        response_status_1.sendCreated(res, "CREATED Positions");
+        console.log(docs);
+        var query = "INSERT INTO positions (lon, lat, aircraftId, sendTime) VALUES ? ";
+        mySqlConnection.query(query, [docs], (err, results, fields) => {
+            if (!err) {
+                response_status_1.sendCreated(res, "OK");
+            }
+            else {
+                response_status_1.sendBadRequest(res, err.message);
+            }
+        });
     }
     catch (error) {
         response_status_1.sendBadRequest(res, error.message);

@@ -30,17 +30,17 @@ exports.aircraftRouter = express.Router({ mergeParams: true });
 /** Get all Aircrafts */
 exports.aircraftRouter.get('/', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.getAirCrafts));
 /** Get Single Aircraft */
-exports.aircraftRouter.get('/:aircraftid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.getSingleAircraft));
+exports.aircraftRouter.get('/:aircraftId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.getSingleAircraft));
 /** CREATE */
 exports.aircraftRouter.post('/', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.createAirCraft));
 /** CREATE With Number*/
 exports.aircraftRouter.post('/addMultiple/:number', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.createAirCrafts));
 /** Update Aircraft */
-exports.aircraftRouter.put('/update/:aircraftid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.updateAircraft));
+exports.aircraftRouter.put('/update/:aircraftId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.updateAircraft));
 /** Delete Aircraft */
-exports.aircraftRouter.delete('/delete/:aircraftid', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.deleteAircraft));
+exports.aircraftRouter.delete('/delete/:aircraftId', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.deleteAircraft));
 /** Get Single Aircraft with all positions */
-exports.aircraftRouter.get('/allpositions/:aircraftid/', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.getAirCraftsWithAllPosition));
+exports.aircraftRouter.get('/allpositions/:aircraftId/', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.getAirCraftsWithAllPosition));
 /** Delete Aircraft */
 exports.aircraftRouter.delete('/deleteAll', timelogger_middleware_1.logTime, errorhandler_middleware_1.wrapAsync(aircraft_controller_1.deleteAllAircrafts));
 //# sourceMappingURL=aircraft.router.js.map
